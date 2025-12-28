@@ -21,7 +21,23 @@ const LocalStrategy=require("passport-local");
 const User=require("./models/user.js");
 const UserRoute=require("./routes/user.js");
 
-const DBurl=process.env.Dburl;
+// const DBurl=process.env.Dburl;
+
+// FIX 1: Try multiple variable names and add debugging
+const DBurl = process.env.MONGODB_URI || process.env.Dburl || process.env.MONGO_URI;
+const SECRET = process.env.SECRET || process.env.SESSION_SECRET || 'fallback-secret-key';
+
+// Debugging logs
+console.log('=== Environment Variables Check ===');
+console.log('DBurl exists:', !!DBurl);
+console.log('SECRET exists:', !!SECRET);
+console.log('NODE_ENV:', process.env.NODE_ENV);
+
+if (!DBurl) {
+  console.error('ERROR: MongoDB URL not found!');
+  console.error('Available MONGO vars:', Object.keys(process.env).filter(k => k.toLowerCase().includes('mongo')));
+  process.exit(1);
+}
 
 main()
 .then(()=>{
