@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: Air
+    env: node
+    buildCommand: npm install --legacy-peer-deps
+    startCommand: node app.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SECRET
+        value: YourSecretKeyHere123
+      - key: DBurl
+        sync: false
